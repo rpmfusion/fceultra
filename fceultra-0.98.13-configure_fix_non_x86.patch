@@ -1,0 +1,30 @@
+--- fceu/configure.ac~	2006-10-22 12:49:18.000000000 +0200
++++ fceu/configure.ac	2006-10-22 12:49:18.000000000 +0200
+@@ -117,6 +117,8 @@
+ if expr match "$target_cpu" 'i.86' > /dev/null; then
+ 	AC_DEFINE([C80x86])
+ 	AM_CONDITIONAL(C80x86, true)
++else
++	AM_CONDITIONAL(C80x86, false)
+ fi
+ 
+ AC_C_BIGENDIAN([], [AC_DEFINE([LSB_FIRST])])
+--- fceu/configure~	2006-10-22 12:50:01.000000000 +0200
++++ fceu/configure	2006-10-22 12:50:01.000000000 +0200
+@@ -5145,6 +5145,16 @@
+   C80x86_FALSE=
+ fi
+ 
++else
++
++if false; then
++  C80x86_TRUE=
++  C80x86_FALSE='#'
++else
++  C80x86_TRUE='#'
++  C80x86_FALSE=
++fi
++
+ fi
+ 
+ echo "$as_me:$LINENO: checking whether byte ordering is bigendian" >&5
