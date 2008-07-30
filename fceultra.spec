@@ -1,7 +1,7 @@
 Summary: A portable NES/Famicom emulator
 Name: fceultra
 Version: 0.98.13
-Release: 0.5.pre%{?dist}
+Release: 0.6.pre%{?dist}
 License: GPLv2+
 Group: Applications/Emulators
 URL: http://fceultra.sourceforge.net/
@@ -52,6 +52,9 @@ rm -rf %{buildroot}
 %{_mandir}/man6/fceultra.6*
 
 %changelog
+* Wed Jul 30 2008 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info - 0.98.13-0.6.pre
+- rebuild for buildsys cflags issue
+
 * Fri Nov 02 2007  Andrea Musuruane <musuruan@gmail.com> 0.98.13-0.5.pre
 - Changed license due to new guidelines.
 - Removed %%{?dist} tag from changelog.
