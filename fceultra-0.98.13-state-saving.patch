@@ -1,0 +1,11 @@
+--- src/state.c
++++ src/state.c	2007/09/10 11:17:02
+@@ -231,7 +231,7 @@
+         static uint32 totalsize;
+         static uint8 header[16]="FCS";
+         
+-        memset(header+4,0,13);
++        memset(header+4,0,12);
+         header[3]=0xFF;
+ 	FCEU_en32lsb(header + 8, FCEU_VERSION_NUMERIC);
+         fwrite(header,1,16,st);       
