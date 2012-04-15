@@ -1,19 +1,38 @@
 Summary: A portable NES/Famicom emulator
 Name: fceultra
 Version: 0.98.13
-Release: 0.8.pre%{?dist}
+Release: 0.9.pre%{?dist}
 License: GPLv2+
 Group: Applications/Emulators
 URL: http://fceultra.sourceforge.net/
-Source: http://dl.sf.net/sourceforge/%{name}/fceu-%{version}-pre.src.tar.bz2
-Patch0: fceultra-0.98.13-man.patch
-Patch1: fceultra-0.98.13-cheatdir.patch
-Patch2: fceultra-0.98.13-configure_fix_non_x86.patch
+Source:  http://downloads.sourceforge.net/%{name}/fceu-%{version}-pre.src.tar.bz2
+# Debian
+# Fix man page
+Patch0: %{name}-0.98.13-man.patch
+# Gentoo 109359
+# Fix saving cheats
+Patch1: %{name}-0.98.13-cheatdir.patch
+# Hans de Goede
+# Fix compiling on non-x86 systems
+Patch2: %{name}-0.98.13-configure_fix_non_x86.patch
+# OpenSUSE
+# Fix a potential buffer overflow
+Patch3: %{name}-0.98.13-buffer_overflow.patch 
+# OpenSUSE
+# Fix state saving
+Patch4: %{name}-0.98.13-state-saving.patch
+# Andrea Musuruane 
+# Fix linking against libm
+Patch5: %{name}-0.98.13-lib.patch
+# Andrea Musuruane 
+# Correctly quote definition of AM_PATH_SDL
+Patch6: %{name}-0.98.13-acinclude.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRequires: autoconf
+BuildRequires: automake
 BuildRequires: SDL-devel >= 1.2.0
 BuildRequires: libGLU-devel
 BuildRequires: zlib-devel
-BuildRequires: automake16
 
 %description
 FCE Ultra is a portable NES/Famicom emulator based on Bero's original
@@ -25,12 +44,17 @@ in a much stabler and very compatible emulator.
 %patch0 -p1
 %patch1 -p0
 %patch2 -p1
+%patch3 -p0
+%patch4 -p0
+%patch5 -p1
+%patch6 -p1
 
 perl -pi -e's/-mcpu=i686/\$(RPM_OPT_FLAGS)/' Makefile*
 chmod 644 src/drivers/sexyal/convert.inc
 mv Documentation/fceu-sdl.6 Documentation/fceultra.6
 
 %build
+autoreconf -fvi
 %configure --with-opengl
 make %{?_smp_mflags}
 
@@ -52,6 +76,14 @@ rm -rf %{buildroot}
 %{_mandir}/man6/fceultra.6*
 
 %changelog
+* Mon Apr 09 2012 Andrea Musuruane <musuruan@gmail.com> 0.98.13-0.9.pre
+- Fixed Source0 URL
+- Updated man patch from Debian
+- Made a patch to fix FTBFS
+- Made a patch to correctly quote definition of AM_PATH_SDL
+- Added a patch from OpenSUSE to fix a potential buffer overflow and to fix
+  state saving (split into two patches for better clarity)
+
 * Wed Feb 08 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.98.13-0.8.pre
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
@@ -61,7 +93,7 @@ rm -rf %{buildroot}
 * Wed Jul 30 2008 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info - 0.98.13-0.6.pre
 - rebuild for buildsys cflags issue
 
-* Fri Nov 02 2007  Andrea Musuruane <musuruan@gmail.com> 0.98.13-0.5.pre
+* Fri Nov 02 2007 Andrea Musuruane <musuruan@gmail.com> 0.98.13-0.5.pre
 - Changed license due to new guidelines.
 - Removed %%{?dist} tag from changelog.
 

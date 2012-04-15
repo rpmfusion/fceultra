@@ -1,0 +1,14 @@
+diff -durN fceu.orig/configure.ac fceu/configure.ac
+--- fceu.orig/configure.ac	2004-09-11 23:32:25.000000000 +0200
++++ fceu/configure.ac	2012-04-09 17:55:19.231646900 +0200
+@@ -18,6 +18,10 @@
+ AC_DEFINE(_GNU_SOURCE)
+ AC_CHECK_FUNC(asprintf, AC_DEFINE([HAVE_ASPRINTF]), [])
+ 
++dnl Check for libm
++AC_CHECK_LIB([m], [sin],[], AC_MSG_ERROR([*** libm not found!]))
++LIBS="$LIBS -lm"
++
+ dnl Check for zlib
+ AC_CHECK_LIB([z], [zlibVersion],[], AC_MSG_ERROR([*** zlib not found!]))
+ LIBS="$LIBS -lz"
